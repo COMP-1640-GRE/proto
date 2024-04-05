@@ -8,7 +8,7 @@ service FileTransfer {
   rpc UploadFiles(UploadFilesRequest) returns (UploadFilesResponse);
   rpc DeleteFile(DeleteFileRequest) returns (DeleteFileResponse);
   rpc DownloadMultipleFileAsZip(DownloadMultipleFileAsZipRequest)
-      returns (DownloadMultipleFileAsZipResponse);
+      returns (stream DownloadMultipleFileAsZipResponse);
 }
 
 message UploadFilesRequest {
@@ -31,4 +31,5 @@ message DownloadMultipleFileAsZipRequest {
 message DownloadMultipleFileAsZipResponse {
   string name = 1;
   bytes zip = 2;
+  int64 size = 3;
 }
