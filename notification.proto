@@ -1,11 +1,10 @@
 syntax = "proto3";
 
-package com.example.grpctest1;
+option csharp_namespace = "DotnetGRPC";
 
-option java_multiple_files = true;
-option java_package = "com.example.grpctest1";
+package notification;
 
-service NotificationService {
+service Notification {
   rpc sendNotification(NotificationRequest) returns (NotificationResponse) {}
   rpc getListNotifications(ListNotificationRequest) returns (stream NotificationResponse) {}
 }
