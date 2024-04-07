@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+option csharp_namespace = "DotnetGRPC";
+
+package database;
+
+service Database {
+  rpc GetDatabaseRecoveryPoints(Empty) returns (RecoveryPointsResponse);
+}
+
+message Empty {}
+
+message RecoveryPointsResponse { repeated RecoveryPoint recovery_points = 1; }
+
+message RecoveryPoint {
+  message Properties {
+    message RecoveryPointDataStoresDetails {
+      string id = 1;
+      string type = 2;
+      string creationTime = 3;
+      string expiryTime = 4;
+      string metaData = 5;
+      bool visible = 6;
+      string state = 7;
+      string rehydrationExpiryTime = 8;
+      string rehydrationStatus = 9;
+    }
+
+    string objectType = 1;
+    string recoveryPointId = 2;
+    string recoveryPointTime = 3;
+    string recoveryPointType = 4;
+    string friendlyName = 5;
+    repeated RecoveryPointDataStoresDetails recoveryPointDataStoresDetails = 6;
+    string retentionTagName = 7;
+    string retentionTagVersion = 8;
+    string policyName = 9;
+    string policyVersion = 10;
+    string expiryTime = 11;
+    string recoveryPointState = 12;
+  }
+
+  Properties properties = 1;
+  string id = 2;
+  string name = 3;
+  string type = 4;
+}
