@@ -3,9 +3,40 @@ syntax = "proto3";
 option csharp_namespace = "DotnetGRPC";
 
 package database;
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/any.proto";
 
 service Database {
   rpc GetDatabaseRecoveryPoints(Empty) returns (RecoveryPointsResponse);
+  rpc RestoreDatabase(RestoreDatabaseRequest) returns (Empty);
+  rpc GetRestoreFiles(Empty) returns (RestoreFilesResponse);
+}
+
+message RestoreDatabaseRequest {
+  string recoveryPointId = 1;
+}
+
+message RestoreFilesResponse {
+  repeated BlobRes blob = 1;
+}
+
+message BlobRes {
+  string name = 1;
+  string url = 2;
+  BlobProperties properties = 3;
+}
+
+message BlobProperties {
+  google.protobuf.Timestamp last_modified = 1;
+  optional string etag = 2;
+  int32 content_length = 3;
+  optional string content_type = 4;
+  optional string content_encoding = 5;
+  optional string content_language = 6;
+  optional string content_md5 = 7;
+  optional string cache_control = 8;
+  string blob_type = 9;
+  optional string lease_status = 10;
 }
 
 message Empty {}
@@ -13,35 +44,37 @@ message Empty {}
 message RecoveryPointsResponse { repeated RecoveryPoint recovery_points = 1; }
 
 message RecoveryPoint {
-  message Properties {
-    message RecoveryPointDataStoresDetails {
-      string id = 1;
-      string type = 2;
-      string creationTime = 3;
-      string expiryTime = 4;
-      string metaData = 5;
-      bool visible = 6;
-      string state = 7;
-      string rehydrationExpiryTime = 8;
-      string rehydrationStatus = 9;
-    }
-
-    string objectType = 1;
-    string recoveryPointId = 2;
-    string recoveryPointTime = 3;
-    string recoveryPointType = 4;
-    string friendlyName = 5;
-    repeated RecoveryPointDataStoresDetails recoveryPointDataStoresDetails = 6;
-    string retentionTagName = 7;
-    string retentionTagVersion = 8;
-    string policyName = 9;
-    string policyVersion = 10;
-    string expiryTime = 11;
-    string recoveryPointState = 12;
-  }
 
   Properties properties = 1;
   string id = 2;
   string name = 3;
   string type = 4;
+}
+
+message RecoveryPointDataStoresDetails {
+  string id = 1;
+  string type = 2;
+  google.protobuf.Timestamp creationTime = 3;
+  string expiryTime = 4;
+  google.protobuf.Any metaData = 5;
+  bool visible = 6;
+  string state = 7;
+  google.protobuf.Any rehydrationExpiryTime = 8;
+  google.protobuf.Any rehydrationStatus = 9;
+}
+
+message Properties {
+
+  string objectType = 1;
+  string recoveryPointId = 2;
+  google.protobuf.Timestamp recoveryPointTime = 3;
+  string recoveryPointType = 4;
+  string friendlyName = 5;
+  repeated RecoveryPointDataStoresDetails recoveryPointDataStoresDetails = 6;
+  string retentionTagName = 7;
+  string retentionTagVersion = 8;
+  string policyName = 9;
+  google.protobuf.Any policyVersion = 10;
+  string expiryTime = 11;
+  google.protobuf.Any recoveryPointState = 12;
 }
