@@ -28,6 +28,8 @@ message DatabaseServer {
   string name = 1;
   string createdAt = 2;
   string state = 3;
+  int32 backupRetentionDays = 4;
+  string earliestRestoreDate = 5;
 }
 
 message StartDatabaseRequest {
