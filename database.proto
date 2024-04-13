@@ -10,6 +10,34 @@ service Database {
   rpc GetDatabaseRecoveryPoints(Empty) returns (RecoveryPointsResponse);
   rpc RestoreDatabase(RestoreDatabaseRequest) returns (Empty);
   rpc GetRestoreFiles(Empty) returns (RestoreFilesResponse);
+  rpc RestoreDatabaseToAnother(RestoreDatabaseToAnotherRequest) returns (Empty);
+  rpc StopDatabase(StopDatabaseRequest) returns (Empty);
+  rpc StartDatabase(StartDatabaseRequest) returns (Empty);
+  rpc GetDatabaseServers(Empty) returns (DatabaseServersResponse);
+}
+
+message StopDatabaseRequest {
+  string serverName = 1;
+}
+
+message DatabaseServersResponse {
+  repeated DatabaseServer database_servers = 1;
+}
+
+message DatabaseServer {
+  string name = 1;
+  string createdAt = 2;
+  string state = 3;
+}
+
+message StartDatabaseRequest {
+  string serverName = 1;
+}
+
+message RestoreDatabaseToAnotherRequest {
+  string serverName = 1;
+  string sourceName = 2;
+  string restoreDate = 3;
 }
 
 message RestoreDatabaseRequest {
