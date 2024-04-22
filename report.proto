@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+option csharp_namespace = "DotnetGRPC";
+
+package report;
+
+service ReportService {
+  rpc GetReport (google.protobuf.Empty) returns (ReportResponse);
+}
+
+message ReportResponse {
+    bytes report_data = 1;
+  }
