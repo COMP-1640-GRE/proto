@@ -7,8 +7,10 @@ package filetransfer;
 service FileTransfer {
   rpc UploadFiles(UploadFilesRequest) returns (UploadFilesResponse);
   rpc DeleteFile(DeleteFileRequest) returns (DeleteFileResponse);
+  rpc DownloadMultipleFileAsZipStream(DownloadMultipleFileAsZipRequest)
+      returns (stream DownloadMultipleFileAsZipResponseStream);
   rpc DownloadMultipleFileAsZip(DownloadMultipleFileAsZipRequest)
-      returns (stream DownloadMultipleFileAsZipResponse);
+      returns (DownloadMultipleFileAsZipResponse);
 }
 
 message UploadFilesRequest {
@@ -28,8 +30,13 @@ message DownloadMultipleFileAsZipRequest {
   repeated string urls = 2;
 }
 
-message DownloadMultipleFileAsZipResponse {
+message DownloadMultipleFileAsZipResponseStream {
   string name = 1;
   bytes zip = 2;
   int64 size = 3;
+}
+
+message DownloadMultipleFileAsZipResponse {
+  string name = 1;
+  bytes zip = 2;
 }
